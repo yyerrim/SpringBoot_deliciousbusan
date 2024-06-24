@@ -3,9 +3,16 @@ package com.example.deliciousbusan;
 import java.util.List;
 import java.util.Optional;
 
+import javax.swing.text.html.HTML.Tag;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.deliciousbusan.model.FavoriteTb;
@@ -42,11 +49,21 @@ class DeliciousbusanApplicationTests {
 			String name = tagTb.getTagName();
 			System.out.println(name);
 		}
+		// // 강사님 풀이
+		// Direction direction = Direction.DESC;
+		// Sort sort = Sort.by(direction, "hitCnt"); // 역순으로 hitCnt 정렬
+		// Pageable pageable = PageRequest.of(0, 2, sort);
+		// Page<TagTb> p = tagTbRepository.findAll(pageable);
+		// List<TagTb> list = p.getContent();
+		// for (TagTb t : list) {
+		// 	System.out.println(t.getTagName());
+		// }
 	}
 
 	// 2. 가장 많이 검색된 태그를 사용하는 매장 개수 확인
 	// -> 44
 	@Test
+	@Transactional
 	void 문제2() {
 		List<TagTb> t = tagTbRepository.findAllByOrderByHitCntDesc();
 		for (int i = 0; i < 1; i++) {
@@ -54,6 +71,16 @@ class DeliciousbusanApplicationTests {
 			List<ShopTagTb> s = shopTagTbRepository.findByTagTb(tagTb);
 			System.out.println(s.size());
 		}
+		// // 강사님 풀이
+		// Direction direction = Direction.DESC;
+		// Sort sort = Sort.by(direction, "hitCnt");
+		// Pageable pageable = PageRequest.of(0, 1, sort);
+		// Page<TagTb> p = tagTbRepository.findAll(pageable);
+		// List<TagTb> list = p.getContent();
+		// TagTb tt = list.get(0); // 데이터가 1건이란걸 아니까 한개만 뽑아오기
+		// List<ShopTagTb> sttl = tt.getShopTagTbList();
+		// int size = sttl.size();
+		// System.out.println(size);
 	}
 
 	// 3. '거북선횟집' 매장에 연결된 모든 태그명 확인
